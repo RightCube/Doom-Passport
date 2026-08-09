@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Doom Passport</title>
+    <style>
+        body {
+            background: #0b0b10;
+            color: #e0e0e0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #202040, #401020);
+            border-bottom: 1px solid #303040;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            font-size: 20px;
+            border-bottom: 1px solid #303040;
+            padding-bottom: 5px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .wad-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .wad-card {
+            background: #151520;
+            border: 1px solid #303040;
+            border-radius: 6px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+        }
+
+        .wad-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(255, 80, 80, 0.25);
+            border-color: #ff5050;
+        }
+
+        .wad-card.completed {
+            background: #102015;
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.35);
+        }
+
+        .wad-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .wad-meta {
+            font-size: 12px;
+            color: #a0a0b0;
+            margin-bottom: 4px;
+        }
+
+        .wad-note {
+            font-size: 13px;
+            color: #d0d0e0;
+        }
+
+        .wad-icon {
+            font-size: 20px;
+            margin-right: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 4px;
+        }
+
+        .badge-completed {
+            background: #4caf50;
+            color: #0b0b10;
+        }
+
+        .badge-pending {
+            background: #ff9800;
+            color: #0b0b10;
+        }
+
+        .badge-hardcore {
+            background: #f44336;
+            color: #0b0b10;
+        }
+
+        .stats {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #c0c0d0;
+        }
+
+        .progress-bar {
+            margin-top: 6px;
+            width: 100%;
+            height: 8px;
+            background: #202030;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #ffeb3b, #f44336);
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 11px;
+            color: #808090;
+            padding: 10px 0 16px;
+        }
+
+        /* Formulář */
+        .add-form {
+            background: #151520;
+            border: 1px solid #303040;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .add-form input, .add-form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+            background: #202030;
+            border: 1px solid #303040;
+            color: #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .add-form button {
+            width: 100%;
+            padding: 10px;
+            background: #4caf50;
+            border: none;
+            border-radius: 4px;
+            color: #0b0b10;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-form button:hover {
+            background: #66d366;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>DOOM PASSPORT</h1>
+    <p>Tvůj deníček dohraných WADů – klikni na kartu pro razítko „Dohráno“.</p>
+</header>
+
+<main>
+
+    <!-- Formulář pro přidání WADu -->
+    <section class="section">
+        <h2>Přidat nový WAD</h2>
+        <div class="add-form">
+            <input id="newName" placeholder="Název WADu">
+            <input id="newStyle" placeholder="Styl (např. malé mapy, retro, slaughter)">
+            <input id="newNote" placeholder="Poznámka">
+            <select id="newStatus">
+                <option value="pending">Čeká na razítko</option>
+                <option value="completed">Dohráno</option>
+                <option value="hardcore">Hardcore</option>
+            </select>
+            <select id="newIcon">
+                <option value="😈">Cacodemon</option>
+                <option value="🔥">Revenant</option>
+                <option value="💀">Baron</option>
+                <option value="👹">Cyberdemon</option>
+                <option value="🟦">Imp</option>
+            </select>
+            <button onclick="addWad()">Přidat WAD</button>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Razítka získaná (dohrané WADy)</h2>
+        <div class="wad-list" id="completed-list"></div>
+        <div class="stats" id="completed-stats"></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="completed-progress"></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Další destinace (chci hrát / hraju)</h2>
+        <div class="wad-list" id="pending-list"></div>
+        <div class="stats" id="pending-stats"></div>
+    </section>
+
+    <section class="section">
+        <h2>Hardcore destinace (pro náladu na masakr)</h2>
+        <div class="wad-list" id="hardcore-list"></div>
+    </section>
+
+</main>
+
+<footer>
+    Doom Passport &copy; Jiří – uprav si seznam podle sebe, přidávej WADy, poznámky, ikonky.
+</footer>
+
+<script>
+    // -------------------------------
+    // 1) ZÁKLADNÍ SEZNAM WADŮ
+    // -------------------------------
+    let wads = [
+        { name: "Doom II Reloaded", status: "completed", style: "kompaktní, rychlé", note: "Perfektní BD flow.", icon: "🟦" },
+        { name: "Hell on Earth Starter Pack", status: "completed", style: "oficiální BD kampaň", note: "BD v nejčistší podobě.", icon: "🔥" },
+        { name: "Extermination Day", status: "completed", style: "skriptovaná BD kampaň", note: "Film v Doomu.", icon: "💀" },
+        { name: "Ancient Aliens", status: "completed", style: "stylová, barevná", note: "Neonový chaos.", icon: "😈" },
+        { name: "Valiant", status: "completed", style: "rychlé, moderní", note: "Skillsaw nikdy nezklame.", icon: "🔥" },
+
+        { name: "No End In Sight", status: "pending", style: "temná klasika", note: "Temná výprava.", icon: "💀" },
+        { name: "Scythe", status: "pending", style: "krátké, svižné", note: "BD sprint.", icon: "🟦" },
+        { name: "Mutiny", status: "pending", style: "komunitní projekt", note: "Hodně akce, málo chození.", icon: "🔥" },
+        { name: "Reverie", status: "pending", style: "barevné, malé mapy", note: "Stylová alternativa k AA.", icon: "😈" },
+        { name: "Unholy Realms", status: "pending", style: "32 krátkých misí", note: "Rychlé a přehledné.", icon: "🟦" },
+        { name: "Jenesis", status: "pending", style: "kompaktní megawad", note: "Malé mapy, velká zábava.", icon: "🔥" },
+        { name: "Lunatic", status: "pending", style: "mini epizoda", note: "Perfektní BD mini-kampaň.", icon: "😈" },
+        { name: "Doom Zero", status: "pending", style: "moderní retro", note: "Skvělá moderní klasika.", icon: "🟦" },
+        { name: "Micro Slaughter CP", status: "pending", style: "malé slaughter mapy", note: "BD masakr.", icon: "💀" },
+
+        { name: "Deus Vult II", status: "hardcore", style: "gigantické slaughter mapy", note: "Totální chaos.", icon: "👹" },
+        { name: "Sunder", status: "hardcore", style: "extrémně těžké", note: "Jen pro odvážné.", icon: "👹" },
+        { name: "Speed of Doom", status: "hardcore", style: "rychlé, agresivní", note: "Akce bez pauzy.", icon: "🔥" }
+    ];
+
+    // -------------------------------
+    // 2) NAČTENÍ STAVU Z LOCALSTORAGE
+    // -------------------------------
+    function loadState() {
+        const saved = localStorage.getItem("doomPassport");
+        if (saved) {
+            wads = JSON.parse(saved);
+        }
+    }
+
+    // -------------------------------
+    // 3) ULOŽENÍ STAVU DO LOCALSTORAGE
+    // -------------------------------
+    function saveState() {
+        localStorage.setItem("doomPassport", JSON.stringify(wads));
+    }
+
+    // -------------------------------
+    // 4) PŘIDÁNÍ NOVÉHO WADU
+    // -------------------------------
+    function addWad() {
+        const name = document.getElementById("newName").value.trim();
+        const style = document.getElementById("newStyle").value.trim();
+        const note = document.getElementById("newNote").value.trim();
+        const status = document.getElementById("newStatus").value;
+        const icon = document.getElementById("newIcon").value;
+
+        if (!name) return alert("Zadej název WADu.");
+
+        wads.push({ name, style, note, status, icon });
+        saveState();
+        renderPassport();
+
+        document.getElementById("newName").value = "";
+        document.getElementById("newStyle").value = "";
+        document.getElementById("newNote").value = "";
+    }
+
+    // -------------------------------
+    // 5) RENDER PASSPORTU
+    // -------------------------------
+    function renderPassport() {
+        const completedList = document.getElementById("completed-list");
+        const pendingList = document.getElementById("pending-list");
+        const hardcoreList = document.getElementById("hardcore-list");
+
+        completedList.innerHTML = "";
+        pendingList.innerHTML = "";
+        hardcoreList.innerHTML = "";
+
+        let completedCount = 0;
+        let totalTrackable = 0;
+
+        wads.forEach((wad, index) => {
+            const card = document.createElement("div");
+            card.className = "wad-card";
+            card.dataset.index = index;
+
+            if (wad.status === "completed") {
+                card.classList.add("completed");
+            }
+
+            const title = document.createElement("div");
+            title.className = "wad-title";
+            title.innerHTML = `<span class="wad-icon">${wad.icon}</span> ${wad.name}`;
+
+            const meta = document.createElement("div");
+            meta.className = "wad-meta";
+            meta.textContent = wad.style;
+
+            const note = document.createElement("div");
+            note.className = "wad-note";
+            note.textContent = wad.note;
+
+            const badge = document.createElement("span");
+            badge.className = "badge";
+
+            if (wad.status === "completed") {
+                badge.classList.add("badge-completed");
+                badge.textContent = "Dohráno";
+            } else if (wad.status === "pending") {
+                badge.classList.add("badge-pending");
+                badge.textContent = "Čeká na razítko";
+            } else {
+                badge.classList.add("badge-hardcore");
+                badge.textContent = "Hardcore";
+            }
+
+            card.appendChild(title);
+            card.appendChild(meta);
+            card.appendChild(badge);
+            card.appendChild(note);
+
+            // Klikání jen pro completed/pending
+            if (wad.status !== "hardcore") {
+                card.addEventListener("click", () => {
+                    wads[index].status =
+                        wads[index].status === "completed" ? "pending" : "completed";
+                    saveState();
+                    renderPassport();
+                });
+            }
+
+            if (wad.status === "completed") {
+                completedList.appendChild(card);
+                completedCount++;
+                totalTrackable++;
+            } else if (wad.status === "pending") {
+                pendingList.appendChild(card);
+                totalTrackable++;
+            } else {
+                hardcoreList.appendChild(card);
+            }
+        });
+
+        // Statistika
+        const completedStats = document.getElementById("completed-stats");
+        const pendingStats = document.getElementById("pending-stats");
+        const progressFill = document.getElementById("completed-progress");
+
+        completedStats.textContent = `Dohráno: ${completedCount} / ${totalTrackable}`;
+        pendingStats.textContent = `Rozpracované / plánované: ${totalTrackable - completedCount}`;
+
+        const progress = totalTrackable > 0 ? (completedCount / totalTrackable) * 100 : 0;
+        progressFill.style.width = `${progress.toFixed(0)}%`;
+    }
+
+    // -------------------------------
+    // 6) START
+    // -------------------------------
+    loadState();
+    renderPassport();
+</script>
+</body>
+</html>
