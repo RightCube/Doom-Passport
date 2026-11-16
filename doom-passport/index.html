@@ -1,15 +1,293 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <title>Doom Passport</title>
+/* ==========================================
+   PASSPORT FRAMEWORK
+   ========================================== */
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/passport.css">
-</head>
-<body>
+.passport-hero {
 
-<h1>Doom Passport</h1>
+    padding: 4rem 0;
+    text-align: center;
+}
 
-</body>
-</html>
+.passport-hero h1 {
+
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.passport-hero p {
+
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   SECTIONS
+   ========================================== */
+
+.passport-section {
+
+    margin-bottom: 3rem;
+}
+
+/* ==========================================
+   STATS
+   ========================================== */
+
+.passport-stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 1.5rem;
+
+    text-align: center;
+}
+
+.stat-label {
+
+    display: block;
+
+    color: var(--text-muted);
+
+    margin-bottom: .5rem;
+
+    font-size: .9rem;
+}
+
+.stat-value {
+
+    font-size: 2rem;
+
+    font-weight: 700;
+
+    color: var(--cyan);
+}
+
+/* ==========================================
+   PROGRESS
+   ========================================== */
+
+.progress-bar {
+
+    width: 100%;
+
+    height: 12px;
+
+    background: var(--panel);
+
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    margin-top: 1rem;
+}
+
+.progress-fill {
+
+    height: 100%;
+
+    width: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            #8fdcff
+        );
+
+    transition: width .3s ease;
+}
+
+/* ==========================================
+   WAD GRID
+   ========================================== */
+
+.wad-list {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 1rem;
+
+    margin-top: 1rem;
+}
+
+/* ==========================================
+   WAD CARD
+   ========================================== */
+
+.wad-card {
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 1rem;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.wad-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--cyan);
+
+    box-shadow: var(--shadow);
+}
+
+.wad-card.completed {
+
+    border-color: var(--success);
+
+    background:
+        rgba(34, 197, 94, .10);
+}
+
+.wad-title {
+
+    font-size: 1.1rem;
+
+    font-weight: 600;
+
+    margin-bottom: .5rem;
+
+    color: var(--text);
+}
+
+.wad-icon {
+
+    margin-right: .4rem;
+}
+
+.wad-meta {
+
+    color: var(--text-muted);
+
+    font-size: .85rem;
+
+    margin-bottom: .75rem;
+}
+
+.wad-note {
+
+    margin-top: .75rem;
+
+    font-size: .9rem;
+}
+
+/* ==========================================
+   BADGES
+   ========================================== */
+
+.badge {
+
+    display: inline-block;
+
+    padding: .3rem .6rem;
+
+    border-radius: 999px;
+
+    font-size: .75rem;
+
+    font-weight: 700;
+}
+
+.badge-completed {
+
+    background:
+        rgba(34,197,94,.15);
+
+    color: var(--success);
+}
+
+.badge-pending {
+
+    background:
+        rgba(245,158,11,.15);
+
+    color: var(--warning);
+}
+
+.badge-hardcore {
+
+    background:
+        rgba(239,68,68,.15);
+
+    color: var(--danger);
+}
+
+/* ==========================================
+   FORM
+   ========================================== */
+
+.add-form {
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 1.5rem;
+}
+
+.add-form button {
+
+    width: 100%;
+
+    margin-top: .5rem;
+}
+
+/* ==========================================
+   STATS TEXT
+   ========================================== */
+
+.stats {
+
+    margin-top: .75rem;
+
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .passport-hero h1 {
+
+        font-size: 2.2rem;
+    }
+
+    .wad-list {
+
+        grid-template-columns: 1fr;
+    }
+}
