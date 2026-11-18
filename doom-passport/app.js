@@ -62,7 +62,7 @@ function renderPassport() {
         document.getElementById("progress-fill");
 
     completedList.innerHTML = "";
-    pendingList.innerHTML = "";
+    pendingList.innerHTML = "";;
     hardcoreList.innerHTML = "";
 
     let completedCount = 0;
@@ -118,7 +118,7 @@ function renderPassport() {
             </div>
 
             <button class="delete-button">
-                🗑 Smazat
+                🗑
             </button>
         `;
 
@@ -248,3 +248,97 @@ function addWad() {
 document
     .getElementById("addWadButton")
     .addEventListener("click", addWad);
+
+function exportPassport() {
+
+    const data =
+        JSON.stringify(wads, null, 2);
+
+    const blob =
+        new Blob(
+            [data],
+            { type: "application/json" }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "doom-passport-backup.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+function importPassport(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function(e) {
+
+        try {
+
+            const imported =
+                JSON.parse(e.target.result);
+
+            if (!Array.isArray(imported)) {
+
+                throw new Error();
+
+            }
+
+            wads = imported;
+
+            saveState();
+
+            renderPassport();
+
+            alert(
+                "Import proběhl úspěšně."
+            );
+
+        }
+        catch {
+
+            alert(
+                "Neplatný soubor."
+            );
+
+        }
+
+    };
+
+    reader.readAsText(file);
+}
+
+document
+    .getElementById("exportButton")
+    .addEventListener("click", exportPassport);
+
+document
+    .getElementById("importButton")
+    .addEventListener("click", () => {
+
+        document
+            .getElementById("importFile")
+            .click();
+
+    });
+
+document
+    .getElementById("importFile")
+    .addEventListener("change", importPassport);
