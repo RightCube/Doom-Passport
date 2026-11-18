@@ -54,44 +54,24 @@
             <div class="passport-stats">
 
                 <div class="stat-card">
-                    <span class="stat-label">
-                        Dokončeno
-                    </span>
-
-                    <div class="stat-value" id="completed-count">
-                        0
-                    </div>
+                    <span class="stat-label">Dokončeno</span>
+                    <div class="stat-value" id="completed-count">0</div>
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-label">
-                        Aktivní seznam
-                    </span>
-
-                    <div class="stat-value" id="active-count">
-                        0
-                    </div>
+                    <span class="stat-label">Aktivní seznam</span>
+                    <div class="stat-value" id="active-count">0</div>
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-label">
-                        Splnění
-                    </span>
-
-                    <div class="stat-value" id="progress-percent">
-                        0%
-                    </div>
+                    <span class="stat-label">Splnění</span>
+                    <div class="stat-value" id="progress-percent">0%</div>
                 </div>
 
             </div>
 
             <div class="progress-bar">
-
-                <div
-                    class="progress-fill"
-                    id="progress-fill">
-                </div>
-
+                <div class="progress-fill" id="progress-fill"></div>
             </div>
 
         </div>
@@ -118,8 +98,12 @@
                     id="newNote"
                     placeholder="Poznámka">
 
-                <button class="button">
+                <button
+                    class="button"
+                    id="addWadButton">
+
                     Přidat WAD
+
                 </button>
 
             </div>
@@ -134,10 +118,7 @@
 
             <h2>Razítka získaná</h2>
 
-            <div
-                id="completed-list"
-                class="wad-list">
-            </div>
+            <div id="completed-list" class="wad-list"></div>
 
         </div>
 
@@ -149,10 +130,7 @@
 
             <h2>Další destinace</h2>
 
-            <div
-                id="pending-list"
-                class="wad-list">
-            </div>
+            <div id="pending-list" class="wad-list"></div>
 
         </div>
 
@@ -164,10 +142,7 @@
 
             <h2>Hardcore destinace</h2>
 
-            <div
-                id="hardcore-list"
-                class="wad-list">
-            </div>
+            <div id="hardcore-list" class="wad-list"></div>
 
         </div>
 
@@ -188,3 +163,6 @@
 </footer>
 
 <script src="app.js"></script>
+
+</body>
+</html>

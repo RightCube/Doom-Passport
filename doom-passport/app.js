@@ -1,3 +1,5 @@
+const STORAGE_KEY = "doomPassport";
+
 let wads = [
     { name: "Doom II Reloaded", status: "completed", style: "kompaktní, rychlé", note: "Perfektní BD flow.", icon: "🟦" },
     { name: "Hell on Earth Starter Pack", status: "completed", style: "oficiální BD kampaň", note: "BD v nejčistší podobě.", icon: "🔥" },
@@ -13,6 +15,28 @@ let wads = [
     { name: "Sunder", status: "hardcore", style: "extrémně těžké", note: "Jen pro odvážné.", icon: "👹" },
     { name: "Speed of Doom", status: "hardcore", style: "rychlé, agresivní", note: "Akce bez pauzy.", icon: "🔥" }
 ];
+
+function saveState() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(wads)
+    );
+
+}
+
+function loadState() {
+
+    const saved =
+        localStorage.getItem(STORAGE_KEY);
+
+    if (saved) {
+
+        wads = JSON.parse(saved);
+
+    }
+
+}
 
 function renderPassport() {
 
@@ -92,9 +116,34 @@ function renderPassport() {
             <div class="wad-note">
                 ${wad.note}
             </div>
+
+            <button class="delete-button">
+                🗑 Smazat
+            </button>
         `;
 
-        // klikání pouze completed/pending
+                const deleteButton =
+            card.querySelector(".delete-button");
+
+        deleteButton.addEventListener("click", (event) => {
+
+            event.stopPropagation();
+
+            if (
+                confirm(
+                    `Opravdu smazat "${wad.name}"?`
+                )
+            ) {
+
+                wads.splice(index, 1);
+
+                saveState();
+                renderPassport();
+
+            }
+
+        });
+
         if (wad.status !== "hardcore") {
 
             card.style.cursor = "pointer";
@@ -111,6 +160,7 @@ function renderPassport() {
 
                 }
 
+                saveState();
                 renderPassport();
 
             });
@@ -156,4 +206,45 @@ function renderPassport() {
 
 }
 
+loadState();
 renderPassport();
+
+function addWad() {
+
+    const name =
+        document.getElementById("newName").value.trim();
+
+    const style =
+        document.getElementById("newStyle").value.trim();
+
+    const note =
+        document.getElementById("newNote").value.trim();
+
+    if (!name) {
+
+        alert("Zadej název WADu.");
+        return;
+    }
+
+    wads.push({
+
+        name: name,
+        status: "pending",
+        style: style || "Neurčeno",
+        note: note || "",
+        icon: "🟦"
+
+    });
+
+    saveState();
+    renderPassport();
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newStyle").value = "";
+    document.getElementById("newNote").value = "";
+
+}
+
+document
+    .getElementById("addWadButton")
+    .addEventListener("click", addWad);
