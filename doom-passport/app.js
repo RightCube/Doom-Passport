@@ -16,9 +16,14 @@ let wads = [
 
 function renderPassport() {
 
-    const completedList = document.getElementById("completed-list");
-    const pendingList = document.getElementById("pending-list");
-    const hardcoreList = document.getElementById("hardcore-list");
+    const completedList =
+        document.getElementById("completed-list");
+
+    const pendingList =
+        document.getElementById("pending-list");
+
+    const hardcoreList =
+        document.getElementById("hardcore-list");
 
     const completedCountElement =
         document.getElementById("completed-count");
@@ -32,14 +37,6 @@ function renderPassport() {
     const progressFill =
         document.getElementById("progress-fill");
 
-    if (
-        !completedList ||
-        !pendingList ||
-        !hardcoreList
-    ) {
-        return;
-    }
-
     completedList.innerHTML = "";
     pendingList.innerHTML = "";
     hardcoreList.innerHTML = "";
@@ -47,30 +44,39 @@ function renderPassport() {
     let completedCount = 0;
     let activeCount = 0;
 
-    wads.forEach(wad => {
+    wads.forEach((wad, index) => {
 
         let badgeClass = "";
         let badgeText = "";
 
         if (wad.status === "completed") {
+
             badgeClass = "badge-completed";
             badgeText = "Dohráno";
+
             completedCount++;
             activeCount++;
+
         }
         else if (wad.status === "pending") {
+
             badgeClass = "badge-pending";
             badgeText = "Čeká na razítko";
+
             activeCount++;
+
         }
         else {
+
             badgeClass = "badge-hardcore";
             badgeText = "Hardcore";
         }
 
-        const card = `
-        <div class="wad-card">
+        const card = document.createElement("div");
 
+        card.className = "wad-card";
+
+        card.innerHTML = `
             <div class="wad-title">
                 ${wad.icon} ${wad.name}
             </div>
@@ -86,23 +92,44 @@ function renderPassport() {
             <div class="wad-note">
                 ${wad.note}
             </div>
-
-        </div>
         `;
+
+        // klikání pouze completed/pending
+        if (wad.status !== "hardcore") {
+
+            card.style.cursor = "pointer";
+
+            card.addEventListener("click", () => {
+
+                if (wads[index].status === "completed") {
+
+                    wads[index].status = "pending";
+
+                } else {
+
+                    wads[index].status = "completed";
+
+                }
+
+                renderPassport();
+
+            });
+
+        }
 
         if (wad.status === "completed") {
 
-            completedList.innerHTML += card;
+            completedList.appendChild(card);
 
         }
         else if (wad.status === "pending") {
 
-            pendingList.innerHTML += card;
+            pendingList.appendChild(card);
 
         }
         else {
 
-            hardcoreList.innerHTML += card;
+            hardcoreList.appendChild(card);
 
         }
 
@@ -110,20 +137,23 @@ function renderPassport() {
 
     const progress =
         activeCount > 0
-            ? Math.round((completedCount / activeCount) * 100)
+            ? Math.round(
+                (completedCount / activeCount) * 100
+            )
             : 0;
 
-    if (completedCountElement)
-        completedCountElement.textContent = completedCount;
+    completedCountElement.textContent =
+        completedCount;
 
-    if (activeCountElement)
-        activeCountElement.textContent = activeCount;
+    activeCountElement.textContent =
+        activeCount;
 
-    if (progressPercentElement)
-        progressPercentElement.textContent = progress + "%";
+    progressPercentElement.textContent =
+        progress + "%";
 
-    if (progressFill)
-        progressFill.style.width = progress + "%";
+    progressFill.style.width =
+        progress + "%";
+
 }
 
 renderPassport();
