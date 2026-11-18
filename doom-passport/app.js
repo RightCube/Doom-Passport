@@ -16,19 +16,60 @@ let wads = [
 
 function renderPassport() {
 
-    const completedList =
-        document.getElementById("completed-list");
+    const completedList = document.getElementById("completed-list");
+    const pendingList = document.getElementById("pending-list");
+    const hardcoreList = document.getElementById("hardcore-list");
 
-    if (!completedList) {
+    const completedCountElement =
+        document.getElementById("completed-count");
+
+    const activeCountElement =
+        document.getElementById("active-count");
+
+    const progressPercentElement =
+        document.getElementById("progress-percent");
+
+    const progressFill =
+        document.getElementById("progress-fill");
+
+    if (
+        !completedList ||
+        !pendingList ||
+        !hardcoreList
+    ) {
         return;
     }
 
     completedList.innerHTML = "";
+    pendingList.innerHTML = "";
+    hardcoreList.innerHTML = "";
+
+    let completedCount = 0;
+    let activeCount = 0;
 
     wads.forEach(wad => {
 
+        let badgeClass = "";
+        let badgeText = "";
+
+        if (wad.status === "completed") {
+            badgeClass = "badge-completed";
+            badgeText = "Dohráno";
+            completedCount++;
+            activeCount++;
+        }
+        else if (wad.status === "pending") {
+            badgeClass = "badge-pending";
+            badgeText = "Čeká na razítko";
+            activeCount++;
+        }
+        else {
+            badgeClass = "badge-hardcore";
+            badgeText = "Hardcore";
+        }
+
         const card = `
-        <div class="wad-card completed">
+        <div class="wad-card">
 
             <div class="wad-title">
                 ${wad.icon} ${wad.name}
@@ -38,8 +79,8 @@ function renderPassport() {
                 ${wad.style}
             </div>
 
-            <span class="badge badge-completed">
-                ${wad.status}
+            <span class="badge ${badgeClass}">
+                ${badgeText}
             </span>
 
             <div class="wad-note">
@@ -49,9 +90,40 @@ function renderPassport() {
         </div>
         `;
 
-        completedList.innerHTML += card;
+        if (wad.status === "completed") {
+
+            completedList.innerHTML += card;
+
+        }
+        else if (wad.status === "pending") {
+
+            pendingList.innerHTML += card;
+
+        }
+        else {
+
+            hardcoreList.innerHTML += card;
+
+        }
+
     });
 
+    const progress =
+        activeCount > 0
+            ? Math.round((completedCount / activeCount) * 100)
+            : 0;
+
+    if (completedCountElement)
+        completedCountElement.textContent = completedCount;
+
+    if (activeCountElement)
+        activeCountElement.textContent = activeCount;
+
+    if (progressPercentElement)
+        progressPercentElement.textContent = progress + "%";
+
+    if (progressFill)
+        progressFill.style.width = progress + "%";
 }
 
 renderPassport();
