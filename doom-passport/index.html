@@ -54,83 +54,61 @@
             <div class="passport-stats">
 
                 <div class="stat-card">
-                    <span class="stat-label">Dokončeno</span>
-                    <div class="stat-value" id="completed-count">0</div>
+
+                    <span class="stat-label">
+                        Dokončeno
+                    </span>
+
+                    <div
+                        class="stat-value"
+                        id="completed-count">
+
+                        0
+
+                    </div>
+
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-label">Aktivní seznam</span>
-                    <div class="stat-value" id="active-count">0</div>
+
+                    <span class="stat-label">
+                        Aktivní seznam
+                    </span>
+
+                    <div
+                        class="stat-value"
+                        id="active-count">
+
+                        0
+
+                    </div>
+
                 </div>
 
                 <div class="stat-card">
-                    <span class="stat-label">Splnění</span>
-                    <div class="stat-value" id="progress-percent">0%</div>
+
+                    <span class="stat-label">
+                        Splnění
+                    </span>
+
+                    <div
+                        class="stat-value"
+                        id="progress-percent">
+
+                        0%
+
+                    </div>
+
                 </div>
 
             </div>
 
             <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
 
-        </div>
-
-    </section>
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Přidat nový WAD</h2>
-
-        <div style="margin-top:1rem;">
-
-            <button
-                class="button"
-                id="exportButton">
-
-                Export Passport
-
-            </button>
-
-            <input
-                type="file"
-                id="importFile"
-                accept=".json"
-                style="display:none;">
-
-            <button
-                class="button button-secondary"
-                id="importButton">
-
-                Import Passport
-
-            </button>
-
-        </div>
-
-            <div class="add-form">
-
-                <input
-                    id="newName"
-                    placeholder="Název WADu">
-
-                <input
-                    id="newStyle"
-                    placeholder="Styl">
-
-                <input
-                    id="newNote"
-                    placeholder="Poznámka">
-
-                <button
-                    class="button"
-                    id="addWadButton">
-
-                    Přidat WAD
-
-                </button>
+                <div
+                    class="progress-fill"
+                    id="progress-fill">
+                </div>
 
             </div>
 
@@ -144,7 +122,10 @@
 
             <h2>Razítka získaná</h2>
 
-            <div id="completed-list" class="wad-list"></div>
+            <div
+                id="completed-list"
+                class="wad-list">
+            </div>
 
         </div>
 
@@ -156,7 +137,10 @@
 
             <h2>Další destinace</h2>
 
-            <div id="pending-list" class="wad-list"></div>
+            <div
+                id="pending-list"
+                class="wad-list">
+            </div>
 
         </div>
 
@@ -168,7 +152,72 @@
 
             <h2>Hardcore destinace</h2>
 
-            <div id="hardcore-list" class="wad-list"></div>
+            <div
+                id="hardcore-list"
+                class="wad-list">
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <div class="container">
+
+            <h2>Přidat nový WAD</h2>
+
+            <div class="add-form">
+
+                <input
+                    id="newName"
+                    placeholder="Název WADu">
+
+                <button
+                    class="button"
+                    id="addWadButton">
+
+                    Přidat
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <div class="container">
+
+            <h2>Správa Passportu</h2>
+
+            <div class="add-form">
+
+                <button
+                    class="button"
+                    id="exportButton">
+
+                    Export Passport
+
+                </button>
+
+                <input
+                    type="file"
+                    id="importFile"
+                    accept=".json"
+                    style="display:none;">
+
+                <button
+                    class="button button-secondary"
+                    id="importButton">
+
+                    Import Passport
+
+                </button>
+
+            </div>
 
         </div>
 

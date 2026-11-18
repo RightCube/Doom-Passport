@@ -1,19 +1,19 @@
 const STORAGE_KEY = "doomPassport";
 
 let wads = [
-    { name: "Doom II Reloaded", status: "completed", style: "kompaktní, rychlé", note: "Perfektní BD flow.", icon: "🟦" },
-    { name: "Hell on Earth Starter Pack", status: "completed", style: "oficiální BD kampaň", note: "BD v nejčistší podobě.", icon: "🔥" },
-    { name: "Extermination Day", status: "completed", style: "skriptovaná BD kampaň", note: "Film v Doomu.", icon: "💀" },
-    { name: "Ancient Aliens", status: "completed", style: "stylová, barevná", note: "Neonový chaos.", icon: "😈" },
-    { name: "Valiant", status: "completed", style: "rychlé, moderní", note: "Skillsaw nikdy nezklame.", icon: "🔥" },
+    { name: "Doom II Reloaded", status: "completed", icon: "🟦" },
+    { name: "Hell on Earth Starter Pack", status: "completed", icon: "🔥" },
+    { name: "Extermination Day", status: "completed", icon: "💀" },
+    { name: "Ancient Aliens", status: "completed", icon: "😈" },
+    { name: "Valiant", status: "completed", icon: "🔥" },
 
-    { name: "No End In Sight", status: "pending", style: "temná klasika", note: "Temná výprava.", icon: "💀" },
-    { name: "Scythe", status: "pending", style: "krátké, svižné", note: "BD sprint.", icon: "🟦" },
-    { name: "Mutiny", status: "pending", style: "komunitní projekt", note: "Hodně akce, málo chození.", icon: "🔥" },
+    { name: "No End In Sight", status: "pending", icon: "💀" },
+    { name: "Scythe", status: "pending", icon: "🟦" },
+    { name: "Mutiny", status: "pending", icon: "🔥" },
 
-    { name: "Deus Vult II", status: "hardcore", style: "gigantické slaughter mapy", note: "Totální chaos.", icon: "👹" },
-    { name: "Sunder", status: "hardcore", style: "extrémně těžké", note: "Jen pro odvážné.", icon: "👹" },
-    { name: "Speed of Doom", status: "hardcore", style: "rychlé, agresivní", note: "Akce bez pauzy.", icon: "🔥" }
+    { name: "Deus Vult II", status: "hardcore", icon: "👹" },
+    { name: "Sunder", status: "hardcore", icon: "👹" },
+    { name: "Speed of Doom", status: "hardcore", icon: "🔥" }
 ];
 
 function saveState() {
@@ -62,7 +62,7 @@ function renderPassport() {
         document.getElementById("progress-fill");
 
     completedList.innerHTML = "";
-    pendingList.innerHTML = "";;
+    pendingList.innerHTML = "";
     hardcoreList.innerHTML = "";
 
     let completedCount = 0;
@@ -94,6 +94,7 @@ function renderPassport() {
 
             badgeClass = "badge-hardcore";
             badgeText = "Hardcore";
+
         }
 
         const card = document.createElement("div");
@@ -105,24 +106,16 @@ function renderPassport() {
                 ${wad.icon} ${wad.name}
             </div>
 
-            <div class="wad-meta">
-                ${wad.style}
-            </div>
-
             <span class="badge ${badgeClass}">
                 ${badgeText}
             </span>
-
-            <div class="wad-note">
-                ${wad.note}
-            </div>
 
             <button class="delete-button">
                 🗑
             </button>
         `;
 
-                const deleteButton =
+        const deleteButton =
             card.querySelector(".delete-button");
 
         deleteButton.addEventListener("click", (event) => {
@@ -150,11 +143,14 @@ function renderPassport() {
 
             card.addEventListener("click", () => {
 
-                if (wads[index].status === "completed") {
+                if (
+                    wads[index].status === "completed"
+                ) {
 
                     wads[index].status = "pending";
 
-                } else {
+                }
+                else {
 
                     wads[index].status = "completed";
 
@@ -206,32 +202,24 @@ function renderPassport() {
 
 }
 
-loadState();
-renderPassport();
-
 function addWad() {
 
     const name =
-        document.getElementById("newName").value.trim();
-
-    const style =
-        document.getElementById("newStyle").value.trim();
-
-    const note =
-        document.getElementById("newNote").value.trim();
+        document.getElementById("newName")
+        .value
+        .trim();
 
     if (!name) {
 
         alert("Zadej název WADu.");
         return;
+
     }
 
     wads.push({
 
         name: name,
         status: "pending",
-        style: style || "Neurčeno",
-        note: note || "",
         icon: "🟦"
 
     });
@@ -240,14 +228,8 @@ function addWad() {
     renderPassport();
 
     document.getElementById("newName").value = "";
-    document.getElementById("newStyle").value = "";
-    document.getElementById("newNote").value = "";
 
 }
-
-document
-    .getElementById("addWadButton")
-    .addEventListener("click", addWad);
 
 function exportPassport() {
 
@@ -274,6 +256,7 @@ function exportPassport() {
     a.click();
 
     URL.revokeObjectURL(url);
+
 }
 
 function importPassport(event) {
@@ -323,7 +306,16 @@ function importPassport(event) {
     };
 
     reader.readAsText(file);
+
 }
+
+loadState();
+
+renderPassport();
+
+document
+    .getElementById("addWadButton")
+    .addEventListener("click", addWad);
 
 document
     .getElementById("exportButton")
