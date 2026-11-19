@@ -1,19 +1,19 @@
 const STORAGE_KEY = "doomPassport";
 
 let wads = [
-    { name: "Doom II Reloaded", status: "completed", icon: "🟦" },
-    { name: "Hell on Earth Starter Pack", status: "completed", icon: "🔥" },
-    { name: "Extermination Day", status: "completed", icon: "💀" },
-    { name: "Ancient Aliens", status: "completed", icon: "😈" },
-    { name: "Valiant", status: "completed", icon: "🔥" },
+    { name: "Doom II Reloaded", status: "completed", icon: "🟦", locked: true },
+    { name: "Hell on Earth Starter Pack", status: "completed", icon: "🔥", locked: true },
+    { name: "Extermination Day", status: "completed", icon: "💀", locked: true },
+    { name: "Ancient Aliens", status: "completed", icon: "😈", locked: true },
+    { name: "Valiant", status: "completed", icon: "🔥", locked: true },
 
-    { name: "No End In Sight", status: "pending", icon: "💀" },
-    { name: "Scythe", status: "pending", icon: "🟦" },
-    { name: "Mutiny", status: "pending", icon: "🔥" },
+    { name: "No End In Sight", status: "pending", icon: "💀", locked: true },
+    { name: "Scythe", status: "pending", icon: "🟦", locked: true },
+    { name: "Mutiny", status: "pending", icon: "🔥", locked: true },
 
-    { name: "Deus Vult II", status: "hardcore", icon: "👹" },
-    { name: "Sunder", status: "hardcore", icon: "👹" },
-    { name: "Speed of Doom", status: "hardcore", icon: "🔥" }
+    { name: "Deus Vult II", status: "hardcore", icon: "👹", locked: true },
+    { name: "Sunder", status: "hardcore", icon: "👹", locked: true },
+    { name: "Speed of Doom", status: "hardcore", icon: "🔥", locked: true }
 ];
 
 function saveState() {
@@ -35,6 +35,34 @@ function loadState() {
         wads = JSON.parse(saved);
 
     }
+
+    const defaultWads = [
+
+        "Doom II Reloaded",
+        "Hell on Earth Starter Pack",
+        "Extermination Day",
+        "Ancient Aliens",
+        "Valiant",
+        "No End In Sight",
+        "Scythe",
+        "Mutiny",
+        "Deus Vult II",
+        "Sunder",
+        "Speed of Doom"
+
+    ];
+
+    wads.forEach(wad => {
+
+        if (
+            defaultWads.includes(wad.name)
+        ) {
+
+            wad.locked = true;
+
+        }
+
+    });
 
 }
 
@@ -110,32 +138,50 @@ function renderPassport() {
                 ${badgeText}
             </span>
 
-            <button class="delete-button">
-                🗑
-            </button>
+            ${
+                wad.locked
+                    ? `
+                    <span
+                        class="locked-icon"
+                        title="Výchozí WAD">
+                        🔒
+                    </span>
+                    `
+                    : `
+                    <button
+                        class="delete-button"
+                        title="Smazat WAD">
+                        🗑
+                    </button>
+                    `
+            }
         `;
 
         const deleteButton =
             card.querySelector(".delete-button");
 
-        deleteButton.addEventListener("click", (event) => {
+        if (deleteButton) {
 
-            event.stopPropagation();
+            deleteButton.addEventListener("click", (event) => {
 
-            if (
-                confirm(
-                    `Opravdu smazat "${wad.name}"?`
-                )
-            ) {
+                event.stopPropagation();
 
-                wads.splice(index, 1);
+                if (
+                    confirm(
+                        `Opravdu smazat "${wad.name}"?`
+                    )
+                ) {
 
-                saveState();
-                renderPassport();
+                    wads.splice(index, 1);
 
-            }
+                    saveState();
+                    renderPassport();
 
-        });
+                }
+
+            });
+
+        }
 
         if (wad.status !== "hardcore") {
 
@@ -147,12 +193,14 @@ function renderPassport() {
                     wads[index].status === "completed"
                 ) {
 
-                    wads[index].status = "pending";
+                    wads[index].status =
+                        "pending";
 
                 }
                 else {
 
-                    wads[index].status = "completed";
+                    wads[index].status =
+                        "completed";
 
                 }
 
@@ -211,7 +259,10 @@ function addWad() {
 
     if (!name) {
 
-        alert("Zadej název WADu.");
+        alert(
+            "Zadej název WADu."
+        );
+
         return;
 
     }
@@ -220,11 +271,13 @@ function addWad() {
 
         name: name,
         status: "pending",
-        icon: "🟦"
+        icon: "🟦",
+        locked: false
 
     });
 
     saveState();
+
     renderPassport();
 
     document.getElementById("newName").value = "";
@@ -234,12 +287,18 @@ function addWad() {
 function exportPassport() {
 
     const data =
-        JSON.stringify(wads, null, 2);
+        JSON.stringify(
+            wads,
+            null,
+            2
+        );
 
     const blob =
         new Blob(
             [data],
-            { type: "application/json" }
+            {
+                type: "application/json"
+            }
         );
 
     const url =
@@ -265,20 +324,28 @@ function importPassport(event) {
         event.target.files[0];
 
     if (!file) {
+
         return;
+
     }
 
     const reader =
         new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
 
         try {
 
             const imported =
-                JSON.parse(e.target.result);
+                JSON.parse(
+                    e.target.result
+                );
 
-            if (!Array.isArray(imported)) {
+            if (
+                !Array.isArray(
+                    imported
+                )
+            ) {
 
                 throw new Error();
 
@@ -315,22 +382,34 @@ renderPassport();
 
 document
     .getElementById("addWadButton")
-    .addEventListener("click", addWad);
+    .addEventListener(
+        "click",
+        addWad
+    );
 
 document
     .getElementById("exportButton")
-    .addEventListener("click", exportPassport);
+    .addEventListener(
+        "click",
+        exportPassport
+    );
 
 document
     .getElementById("importButton")
-    .addEventListener("click", () => {
+    .addEventListener(
+        "click",
+        () => {
 
-        document
-            .getElementById("importFile")
-            .click();
+            document
+                .getElementById("importFile")
+                .click();
 
-    });
+        }
+    );
 
 document
     .getElementById("importFile")
-    .addEventListener("change", importPassport);
+    .addEventListener(
+        "change",
+        importPassport
+    );
