@@ -146,21 +146,6 @@
 
     </section>
 
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Hardcore destinace</h2>
-
-            <div
-                id="hardcore-list"
-                class="wad-list">
-            </div>
-
-        </div>
-
-    </section>
-
     <section class="section utility-section">
 
         <div class="container">
@@ -173,11 +158,41 @@
                     id="newName"
                     placeholder="Název WADu">
 
+                <select id="newIcon">
+
+                    <option value="😈">😈 Imp</option>
+                    <option value="👹">👹 Cyberdemon</option>
+                    <option value="💀">💀 Lost Soul</option>
+                    <option value="🚀">🚀 Rocket Launcher</option>
+                    <option value="🔫">🔫 Chaingun</option>
+                    <option value="⚙️">⚙️ UAC</option>
+
+                </select>
+
+                <label class="hardcore-option">
+
+                    <input
+                        type="checkbox"
+                        id="newHardcore">
+
+                    Hardcore
+
+                </label>
+
                 <button
                     class="button"
                     id="addWadButton">
 
                     Přidat
+
+                </button>
+
+                <button
+                    class="button button-secondary"
+                    id="cancelEditButton"
+                    style="display:none;">
+
+                    Zrušit
 
                 </button>
 

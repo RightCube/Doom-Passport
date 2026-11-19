@@ -1,19 +1,84 @@
 const STORAGE_KEY = "doomPassport";
+let editingIndex = null;
 
 let wads = [
-    { name: "Doom II Reloaded", status: "completed", icon: "🟦", locked: true },
-    { name: "Hell on Earth Starter Pack", status: "completed", icon: "🔥", locked: true },
-    { name: "Extermination Day", status: "completed", icon: "💀", locked: true },
-    { name: "Ancient Aliens", status: "completed", icon: "😈", locked: true },
-    { name: "Valiant", status: "completed", icon: "🔥", locked: true },
-
-    { name: "No End In Sight", status: "pending", icon: "💀", locked: true },
-    { name: "Scythe", status: "pending", icon: "🟦", locked: true },
-    { name: "Mutiny", status: "pending", icon: "🔥", locked: true },
-
-    { name: "Deus Vult II", status: "hardcore", icon: "👹", locked: true },
-    { name: "Sunder", status: "hardcore", icon: "👹", locked: true },
-    { name: "Speed of Doom", status: "hardcore", icon: "🔥", locked: true }
+    {
+        name: "Doom II Reloaded",
+        status: "completed",
+        hardcore: false,
+        icon: "🟦",
+        locked: true
+    },
+    {
+        name: "Hell on Earth Starter Pack",
+        status: "completed",
+        hardcore: false,
+        icon: "🔥",
+        locked: true
+    },
+    {
+        name: "Extermination Day",
+        status: "completed",
+        hardcore: false,
+        icon: "💀",
+        locked: true
+    },
+    {
+        name: "Ancient Aliens",
+        status: "completed",
+        hardcore: false,
+        icon: "😈",
+        locked: true
+    },
+    {
+        name: "Valiant",
+        status: "completed",
+        hardcore: false,
+        icon: "🔥",
+        locked: true
+    },
+    {
+        name: "No End In Sight",
+        status: "pending",
+        hardcore: false,
+        icon: "💀",
+        locked: true
+    },
+    {
+        name: "Scythe",
+        status: "pending",
+        hardcore: false,
+        icon: "🟦",
+        locked: true
+    },
+    {
+        name: "Mutiny",
+        status: "pending",
+        hardcore: false,
+        icon: "🔥",
+        locked: true
+    },
+    {
+        name: "Deus Vult II",
+        status: "completed",
+        hardcore: true,
+        icon: "👹",
+        locked: true
+    },
+    {
+        name: "Sunder",
+        status: "completed",
+        hardcore: true,
+        icon: "👹",
+        locked: true
+    },
+    {
+        name: "Speed of Doom",
+        status: "completed",
+        hardcore: true,
+        icon: "🔥",
+        locked: true
+    }
 ];
 
 function saveState() {
@@ -37,7 +102,6 @@ function loadState() {
     }
 
     const defaultWads = [
-
         "Doom II Reloaded",
         "Hell on Earth Starter Pack",
         "Extermination Day",
@@ -49,16 +113,28 @@ function loadState() {
         "Deus Vult II",
         "Sunder",
         "Speed of Doom"
-
     ];
 
     wads.forEach(wad => {
 
-        if (
-            defaultWads.includes(wad.name)
-        ) {
+        if (defaultWads.includes(wad.name)) {
 
             wad.locked = true;
+
+        }
+
+        if (wad.hardcore === undefined) {
+
+            if (wad.status === "hardcore") {
+
+                wad.status = "completed";
+                wad.hardcore = true;
+
+            } else {
+
+                wad.hardcore = false;
+
+            }
 
         }
 
@@ -74,9 +150,6 @@ function renderPassport() {
     const pendingList =
         document.getElementById("pending-list");
 
-    const hardcoreList =
-        document.getElementById("hardcore-list");
-
     const completedCountElement =
         document.getElementById("completed-count");
 
@@ -91,41 +164,29 @@ function renderPassport() {
 
     completedList.innerHTML = "";
     pendingList.innerHTML = "";
-    hardcoreList.innerHTML = "";
 
     let completedCount = 0;
     let activeCount = 0;
 
     wads.forEach((wad, index) => {
 
-        let badgeClass = "";
-        let badgeText = "";
+        if (
+            wad.status === "completed" ||
+            wad.status === "pending"
+        ) {
+
+            activeCount++;
+
+        }
 
         if (wad.status === "completed") {
 
-            badgeClass = "badge-completed";
-            badgeText = "Dohráno";
-
             completedCount++;
-            activeCount++;
-
-        }
-        else if (wad.status === "pending") {
-
-            badgeClass = "badge-pending";
-            badgeText = "Čeká na razítko";
-
-            activeCount++;
-
-        }
-        else {
-
-            badgeClass = "badge-hardcore";
-            badgeText = "Hardcore";
 
         }
 
-        const card = document.createElement("div");
+        const card =
+            document.createElement("div");
 
         card.className = "wad-card";
 
@@ -134,9 +195,33 @@ function renderPassport() {
                 ${wad.icon} ${wad.name}
             </div>
 
-            <span class="badge ${badgeClass}">
-                ${badgeText}
-            </span>
+            <div>
+
+                <span class="badge ${
+                    wad.status === "completed"
+                        ? "badge-completed"
+                        : "badge-pending"
+                }">
+
+                    ${
+                        wad.status === "completed"
+                            ? "Dohráno"
+                            : "Čeká na razítko"
+                    }
+
+                </span>
+
+                ${
+                    wad.hardcore
+                        ? `
+                        <span class="badge badge-hardcore">
+                            Hardcore
+                        </span>
+                        `
+                        : ""
+                }
+
+            </div>
 
             ${
                 wad.locked
@@ -144,14 +229,18 @@ function renderPassport() {
                     <span
                         class="locked-icon"
                         title="Výchozí WAD">
+
                         🔒
+
                     </span>
                     `
                     : `
                     <button
                         class="delete-button"
                         title="Smazat WAD">
+
                         🗑
+
                     </button>
                     `
             }
@@ -162,68 +251,51 @@ function renderPassport() {
 
         if (deleteButton) {
 
-            deleteButton.addEventListener("click", (event) => {
+            deleteButton.addEventListener(
+                "click",
+                (event) => {
 
-                event.stopPropagation();
+                    event.stopPropagation();
 
-                if (
-                    confirm(
-                        `Opravdu smazat "${wad.name}"?`
-                    )
-                ) {
+                    if (
+                        confirm(
+                            `Opravdu smazat "${wad.name}"?`
+                        )
+                    ) {
 
-                    wads.splice(index, 1);
+                        wads.splice(index, 1);
 
-                    saveState();
-                    renderPassport();
+                        saveState();
+                        renderPassport();
+
+                    }
 
                 }
-
-            });
+            );
 
         }
 
-        if (wad.status !== "hardcore") {
+        card.style.cursor = "pointer";
 
-            card.style.cursor = "pointer";
+        card.addEventListener("click", () => {
 
-            card.addEventListener("click", () => {
+            wad.status =
+                wad.status === "completed"
+                    ? "pending"
+                    : "completed";
 
-                if (
-                    wads[index].status === "completed"
-                ) {
+            saveState();
+            renderPassport();
 
-                    wads[index].status =
-                        "pending";
-
-                }
-                else {
-
-                    wads[index].status =
-                        "completed";
-
-                }
-
-                saveState();
-                renderPassport();
-
-            });
-
-        }
+        });
 
         if (wad.status === "completed") {
 
             completedList.appendChild(card);
 
-        }
-        else if (wad.status === "pending") {
+        } else {
 
             pendingList.appendChild(card);
-
-        }
-        else {
-
-            hardcoreList.appendChild(card);
 
         }
 
@@ -257,30 +329,122 @@ function addWad() {
         .value
         .trim();
 
+    const icon =
+        document.getElementById("newIcon")
+        .value;
+
+    const hardcore =
+        document.getElementById("newHardcore")
+        .checked;
+
     if (!name) {
 
-        alert(
-            "Zadej název WADu."
-        );
-
+        alert("Zadej název WADu.");
         return;
 
     }
+
+    if (editingIndex !== null) {
+
+        wads[editingIndex].name = name;
+        wads[editingIndex].icon = icon;
+        wads[editingIndex].hardcore = hardcore;
+
+        editingIndex = null;
+
+        document.getElementById(
+            "addWadButton"
+        ).textContent = "Přidat";
+
+        document.getElementById(
+            "cancelEditButton"
+        ).style.display = "none";
+
+    }
+    else {
+
+        wads.push({
+
+            name: name,
+            status: "pending",
+            hardcore: hardcore,
+            icon: icon
+
+        });
+
+    }
+
+    saveState();
+    renderPassport();
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newHardcore").checked = false;
+
+}
+
+    const icon =
+        document.getElementById("newIcon").value;
 
     wads.push({
 
         name: name,
         status: "pending",
-        icon: "🟦",
+        hardcore: false,
+        icon: icon,
         locked: false
 
     });
 
-    saveState();
+        saveState();
 
-    renderPassport();
+        renderPassport();
 
-    document.getElementById("newName").value = "";
+        document.getElementById("newName").value = "";
+
+    }
+
+function addWad() {
+
+    ...
+
+}
+
+function editWad(index) {
+
+    const wad = wads[index];
+
+    editingIndex = index;
+
+    document.getElementById("newName")
+        .value = wad.name;
+
+    document.getElementById("newIcon")
+        .value = wad.icon;
+
+    document.getElementById("newHardcore")
+        .checked = wad.hardcore;
+
+    document.getElementById(
+        "addWadButton"
+    ).textContent = "Uložit";
+
+    document.getElementById(
+        "cancelEditButton"
+    ).style.display = "block";
+
+    window.scrollTo({
+
+        top: document.body.scrollHeight,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+function exportPassport() {
+
+    ...
 
 }
 
@@ -332,7 +496,7 @@ function importPassport(event) {
     const reader =
         new FileReader();
 
-    reader.onload = function (e) {
+    reader.onload = function(e) {
 
         try {
 
@@ -342,9 +506,7 @@ function importPassport(event) {
                 );
 
             if (
-                !Array.isArray(
-                    imported
-                )
+                !Array.isArray(imported)
             ) {
 
                 throw new Error();
@@ -377,7 +539,6 @@ function importPassport(event) {
 }
 
 loadState();
-
 renderPassport();
 
 document

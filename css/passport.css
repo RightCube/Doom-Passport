@@ -288,13 +288,32 @@
 
 }
 
-.add-form input {
-
-    flex: 1;
+.add-form input,
+.add-form select {
 
     margin: 0;
 
     padding: .7rem .9rem;
+
+}
+
+.add-form input {
+
+    flex: 4;
+
+}
+
+.add-form select {
+
+    flex: 1;
+
+    min-width: 160px;
+
+}
+
+.add-form select {
+
+    min-width: 175px;
 
 }
 
@@ -307,6 +326,28 @@
     white-space: nowrap;
 
     padding: .7rem 1rem;
+
+}
+
+.hardcore-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .35rem;
+
+    white-space: nowrap;
+
+    color: var(--text);
+
+    font-size: .9rem;
+
+}
+
+.hardcore-option input {
+
+    margin: 0;
 
 }
 
