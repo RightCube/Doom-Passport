@@ -5,6 +5,7 @@
 .passport-hero {
 
     padding: 2.25rem 0 1.5rem;
+
     text-align: center;
 
 }
@@ -12,7 +13,9 @@
 .passport-hero h1 {
 
     font-size: 2.5rem;
+
     margin-bottom: .5rem;
+
     color: var(--text);
 
 }
@@ -20,6 +23,7 @@
 .passport-hero p {
 
     max-width: 700px;
+
     margin: 0 auto;
 
 }
@@ -37,12 +41,6 @@
 .section h2 {
 
     margin-bottom: .4rem;
-
-}
-
-.passport-section {
-
-    margin-bottom: 1.5rem;
 
 }
 
@@ -176,6 +174,8 @@
 
     min-height: 90px;
 
+    cursor: pointer;
+
 }
 
 .wad-card:hover {
@@ -188,22 +188,7 @@
 
 }
 
-.wad-card.completed {
-
-    border-color: var(--success);
-
-    background:
-        rgba(34,197,94,.10);
-
-}
-
 .wad-title {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
 
     font-size: 1rem;
 
@@ -211,13 +196,9 @@
 
     color: var(--text);
 
-    margin-bottom: .5rem;
+    margin-bottom: .6rem;
 
-}
-
-.wad-icon {
-
-    margin-right: .4rem;
+    padding-right: 65px;
 
 }
 
@@ -237,12 +218,14 @@
 
     font-weight: 700;
 
+    margin-right: .25rem;
+
 }
 
 .badge-completed {
 
     background:
-        rgba(34,197,94,.15);
+        rgba(34, 197, 94, .15);
 
     color: var(--success);
 
@@ -251,18 +234,86 @@
 .badge-pending {
 
     background:
-        rgba(245,158,11,.15);
+        rgba(245, 158, 11, .15);
 
     color: var(--warning);
 
 }
 
-.badge-hardcore {
+.badge-tc {
 
     background:
-        rgba(239,68,68,.15);
+        rgba(59,130,246,.15);
+
+    color: #60a5fa;
+
+}
+
+.badge-dlc {
+
+    background:
+        rgba(168,85,247,.15);
+
+    color: #c084fc;
+
+}
+
+/* ==========================================
+   CARD ACTIONS
+   ========================================== */
+
+.card-actions {
+
+    position: absolute;
+
+    top: .75rem;
+
+    right: .75rem;
+
+    display: flex;
+
+    gap: .5rem;
+
+}
+
+.edit-button,
+.delete-button {
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+
+    font-size: .9rem;
+
+    padding: 0;
+
+    opacity: .7;
+
+    transition: .2s;
+
+}
+
+.edit-button:hover {
+
+    color: var(--cyan);
+
+    opacity: 1;
+
+    transform: scale(1.15);
+
+}
+
+.delete-button:hover {
 
     color: var(--danger);
+
+    opacity: 1;
+
+    transform: scale(1.15);
 
 }
 
@@ -307,13 +358,7 @@
 
     flex: 1;
 
-    min-width: 160px;
-
-}
-
-.add-form select {
-
-    min-width: 175px;
+    min-width: 170px;
 
 }
 
@@ -329,7 +374,7 @@
 
 }
 
-.hardcore-option {
+.tag-option {
 
     display: flex;
 
@@ -345,77 +390,45 @@
 
 }
 
-.hardcore-option input {
+.tag-option input {
 
     margin: 0;
 
 }
 
 /* ==========================================
-   DELETE BUTTON
+   UTILITY SECTION
    ========================================== */
 
-.delete-button {
+.utility-section {
 
-    position: absolute;
-
-    top: .75rem;
-
-    right: .75rem;
-
-    border: none;
-
-    background: transparent;
-
-    color: var(--text-muted);
-
-    cursor: pointer;
-
-    font-size: .9rem;
-
-    padding: 0;
-
-    opacity: .6;
-
-    transition: .2s;
+    margin-top: 5rem;
 
 }
 
-.locked-icon {
+.utility-section h2 {
 
-    position: absolute;
+    font-size: 1.8rem;
 
-    top: .75rem;
-
-    right: .75rem;
-
-    color: var(--text-muted);
-
-    font-size: .9rem;
-
-    opacity: .6;
+    margin-bottom: .4rem;
 
 }
 
-.delete-button:hover {
+.utility-section .add-form {
 
-    color: var(--danger);
-
-    opacity: 1;
-
-    transform: scale(1.15);
+    padding: .15rem .35rem;
 
 }
 
-/* ==========================================
-   STATS TEXT
-   ========================================== */
+.utility-section input {
 
-.stats {
+    padding: .5rem .7rem;
 
-    margin-top: .5rem;
+}
 
-    color: var(--text-muted);
+.utility-section button {
+
+    padding: .5rem .9rem;
 
 }
 
@@ -441,6 +454,8 @@
 
         flex-direction: column;
 
+        align-items: stretch;
+
     }
 
     .add-form button {
@@ -449,42 +464,10 @@
 
     }
 
-}
+    .card-actions {
 
-/* ==========================================
-   UTILITY SECTIONS
-   ========================================== */
+        gap: .75rem;
 
-.utility-section {
-
-    margin-top: 5rem;
-
-}
-
-.utility-section h2 {
-
-    font-size: 1.8rem;
-
-    margin-bottom: .4rem;
-
-}
-
-.utility-section .add-form {
-
-    padding: .15rem .35rem;
-
-    min-height: auto;
-
-}
-
-.utility-section input {
-
-    padding: .5rem .7rem;
-
-}
-
-.utility-section button {
-
-    padding: .5rem .9rem;
+    }
 
 }
