@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doom Passport | KUBAS PROJECTS</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/passport.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="container">
+
+        <a href="../" class="logo">
+            <span class="logo-symbol">>_</span>
+            <span class="logo-text">
+                KUBAS PROJECTS
+            </span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="../">Domů</a>
+            <a href="../#projects">Projekty</a>
+        </nav>
+
+    </div>
+
+</header>
+
+<main>
+
+    <section class="passport-hero">
+
+        <div class="container">
+
+            <h1>QUAKE PASSPORT</h1>
+
+            <p>
+                Evidence megawadů, statistik a herního postupu.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="passport-stats">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Dokončeno
+                    </span>
+
+                    <div
+                        class="stat-value"
+                        id="completed-count">
+
+                        0
+
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Aktivní seznam
+                    </span>
+
+                    <div
+                        class="stat-value"
+                        id="active-count">
+
+                        0
+
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Splnění
+                    </span>
+
+                    <div
+                        class="stat-value"
+                        id="progress-percent">
+
+                        0%
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progress-fill">
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <div class="container">
+
+            <h2>Razítka získaná</h2>
+
+            <div
+                id="completed-list"
+                class="wad-list">
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <div class="container">
+
+            <h2>Další destinace</h2>
+
+            <div
+                id="pending-list"
+                class="wad-list">
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section utility-section">
+
+        <div class="container">
+
+            <h2>Přidat nový WAD</h2>
+
+            <div class="add-form">
+
+                <input
+                    id="newName"
+                    placeholder="Název WADu">
+
+                <select id="newIcon">
+
+                    <option value="😈">😈 Imp</option>
+                    <option value="👹">👹 Cyberdemon</option>
+                    <option value="💀">💀 Lost Soul</option>
+                    <option value="🚀">🚀 Rocket Launcher</option>
+                    <option value="🔫">🔫 Chaingun</option>
+                    <option value="⚙️">⚙️ UAC</option>
+
+                </select>
+
+                    <label class="tag-option">
+
+                        <input
+                            type="checkbox"
+                            id="newTotalConversion">
+
+                        🔄 TC
+
+                    </label>
+
+                    <label class="tag-option">
+
+                        <input
+                            type="checkbox"
+                            id="newOfficialDlc">
+
+                        🏛 DLC
+
+                    </label>
+
+                <button
+                    class="button"
+                    id="addWadButton">
+
+                    Přidat
+
+                </button>
+
+                <button
+                    class="button button-secondary"
+                    id="cancelEditButton"
+                    style="display:none;">
+
+                    Zrušit
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <div class="container">
+
+            <h2>Správa Passportu</h2>
+
+            <div class="add-form">
+
+                <button
+                    class="button"
+                    id="exportButton">
+
+                    Export Passport
+
+                </button>
+
+                <input
+                    type="file"
+                    id="importFile"
+                    accept=".json"
+                    style="display:none;">
+
+                <button
+                    class="button button-secondary"
+                    id="importButton">
+
+                    Import Passport
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <p>
+            Doom Passport • KUBAS PROJECTS
+        </p>
+
+    </div>
+
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>
