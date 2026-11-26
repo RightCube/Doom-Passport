@@ -6,67 +6,78 @@ let wads = [
     {
         name: "Doom II Reloaded",
         status: "completed",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "😈"
     },
     {
         name: "Hell on Earth Starter Pack",
         status: "completed",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "🚀"
     },
     {
         name: "Extermination Day",
         status: "completed",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "💀"
     },
     {
         name: "Ancient Aliens",
         status: "completed",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "👹"
     },
     {
         name: "Valiant",
         status: "completed",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "🔥"
     },
     {
         name: "No End In Sight",
         status: "pending",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "💀"
     },
     {
         name: "Scythe",
         status: "pending",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "😈"
     },
     {
         name: "Mutiny",
         status: "pending",
-        hardcore: false,
+        totalConversion: false,
+        officialDlc: false,
         icon: "🚀"
     },
     {
         name: "Deus Vult II",
         status: "completed",
-        hardcore: true,
+        totalConversion: true,
+        officialDlc: false,
         icon: "👹"
     },
     {
         name: "Sunder",
         status: "completed",
-        hardcore: true,
+        totalConversion: true,
+        officialDlc: false,
         icon: "👹"
     },
     {
         name: "Speed of Doom",
         status: "completed",
-        hardcore: true,
+        totalConversion: true,
+        officialDlc: false,
         icon: "🔥"
     }
 ];
@@ -105,10 +116,18 @@ function loadState() {
     wads.forEach(wad => {
 
         if (
-            wad.hardcore === undefined
+            wad.totalConversion === undefined
         ) {
 
-            wad.hardcore = false;
+            wad.totalConversion = false;
+
+        }
+
+        if (
+            wad.officialDlc === undefined
+        ) {
+
+            wad.officialDlc = false;
 
         }
 
@@ -129,8 +148,12 @@ function resetForm() {
         .selectedIndex = 0;
 
     document
-        .getElementById("newHardcore")
+        .getElementById("newtotalConversion")
         .checked = false;
+    
+    document
+        .getElementById("newOfficialDlc")
+    .checked = false;
 
     document
         .getElementById("addWadButton")
@@ -158,8 +181,12 @@ function editWad(index) {
         .value = wad.icon;
 
     document
-        .getElementById("newHardcore")
-        .checked = wad.hardcore;
+        .getElementById("newtotalConversion")
+        .checked = wad.totalConversion;
+
+    document
+        .getElementById("newOfficialDlc")
+        .checked = wad.officialDlc;
 
     document
         .getElementById("addWadButton")
@@ -211,10 +238,15 @@ function addWad() {
             .getElementById("newIcon")
             .value;
 
-    const hardcore =
+    const totalConversion =
         document
-            .getElementById("newHardcore")
+            .getElementById("newTotalConversion")
             .checked;
+    
+    const officialDlc =
+    document
+        .getElementById("newOfficialDlc")
+        .checked;
 
     if (!name) {
 
@@ -236,8 +268,11 @@ function addWad() {
         wads[editingIndex].icon =
             icon;
 
-        wads[editingIndex].hardcore =
-            hardcore;
+        wads[editingIndex].totalConversion =
+            totalConversion;
+
+        wads[editingIndex].officialDlc =
+            officialDlc;
 
     }
     else {
@@ -246,7 +281,10 @@ function addWad() {
 
             name: name,
             status: "pending",
-            hardcore: hardcore,
+            totalConversion: totalConversion,
+
+            officialDlc: officialDlc,
+
             icon: icon
 
         });
@@ -324,12 +362,25 @@ function renderPassport() {
                 </span>
 
                 ${
-                    wad.hardcore
+                    wad.totalConversion
                         ? `
                         <span
-                            class="badge badge-hardcore">
+                            class="badge badge-totalConversion">
 
-                            Hardcore
+                            🔄 Total Conversion
+
+                        </span>
+                        `
+                        : ""
+                }
+
+                ${
+                    wad.officialDlc
+                        ? `
+                        <span
+                            class="badge badge-dlc">
+
+                            🏛 Official DLC
 
                         </span>
                         `
