@@ -1,8 +1,8 @@
-const STORAGE_KEY = "doomPassport";
+const STORAGE_KEY = "quakePassport";
 
 let editingIndex = null;
 
-let maps = [
+let wads = [
 
     {
         name: "Episode 1: Dimension of the Doomed",
@@ -66,8 +66,55 @@ let maps = [
         totalConversion: false,
         officialDlc: true,
         icon: "⚔️"
-    }
+    },
 
+    {
+        name: "Arcane Dimensions",
+        status: "pending",
+        totalConversion: false,
+        officialDlc: false,
+        icon: "✨"
+    },
+ 
+    {
+        name: "Alkaline",
+        status: "pending",
+        totalConversion: false,
+        officialDlc: false,
+        icon: "☣️"
+    },
+
+    {
+        name: "Copper",
+        status: "pending",
+        totalConversion: false,
+        officialDlc: false,
+        icon: "🟤"
+    },
+
+    {
+        name: "Underdark Overbright",
+        status: "pending",
+        totalConversion: false,
+        officialDlc: false,
+        icon: "🌑"
+    },
+
+    {
+        name: "Contract Revoked",
+        status: "pending",
+        totalConversion: false,
+        officialDlc: false,
+        icon: "⚔️"
+    },
+
+    {
+    name: "Underdark Overbright",
+    status: "pending",
+    totalConversion: false,
+    officialDlc: false,
+    icon: "🌑"
+    }
 ];
 
 function saveState() {
@@ -136,7 +183,7 @@ function resetForm() {
         .selectedIndex = 0;
 
     document
-        .getElementById("newtotalConversion")
+        .getElementById("newTotalConversion")
         .checked = false;
     
     document
@@ -169,7 +216,7 @@ function editWad(index) {
         .value = wad.icon;
 
     document
-        .getElementById("newtotalConversion")
+        .getElementById("newTotalConversion")
         .checked = wad.totalConversion;
 
     document
